@@ -1,0 +1,14 @@
+[
+  {
+    "targets": [ "host1:7203", "host2:7203", "host3:7203"],
+    "labels": {
+      "cluster": "kafkaprod"
+    }
+  },
+  {
+    "targets": [ "host10:7203", "host20:7203", "host30:7203"],
+    "labels": {
+      "cluster": "kafkadev"
+    }
+  }
+]

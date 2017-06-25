@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+
+  kafka_exporter:
+    image: kafka_exporter
+    container_name: kafka_exporter
+    network_mode: host
+    ports:
+      - 5557:5557

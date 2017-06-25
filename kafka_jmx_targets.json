@@ -1,0 +1,58 @@
+[
+  {
+    "kafka.server:type=BrokerTopicMetrics": [
+    	{
+    	 "metrics": [ "BytesInPerSec", "BytesOutPerSec", "FailedFetchRequestsPerSec", "FailedProduceRequestsPerSec", "MessagesInPerSec", "TotalFetchRequestsPerSec", "TotalProduceRequestsPerSec"],
+       "attributes": "OneMinuteRate"
+    	}
+    ]
+  },
+  {
+    "kafka.server:type=ReplicaManager": [
+    	{
+    	 "metrics": [ "PartitionCount", "LeaderCount", "UnderReplicatedPartitions" ],
+    	 "attributes": "Value"
+    	},
+    	{
+    	 "metrics": [ "IsrShrinksPerSec", "IsrExpandsPerSec" ],
+    	 "attributes": "Count"
+    	}
+    ]
+  },
+  {
+    "kafka.server:type=ReplicaFetcherManager": [
+    	{
+    	 "metrics": [ "MaxLag,clientId=Replica" ],
+    	 "attributes": "Value"
+    	}
+    ]
+  },
+  {
+    "kafka.controller:type=KafkaController": [
+    	{
+    	 "metrics": [ "OfflinePartitionsCount", "ActiveControllerCount" ],
+    	 "attributes": "Value"
+    	}
+    ]
+  },
+  {
+    "kafka.controller:type=ControllerStats": [
+    	{
+    	 "metrics": [ "LeaderElectionRateAndTimeMs", "UncleanLeaderElectionsPerSec" ],
+    	 "attributes": "Count"
+    	}
+    ]
+  },
+  {
+    "kafka.network:type=RequestMetrics": [
+    	{
+    	 "metrics": [ "RequestsPerSec,request=Produce", "RequestsPerSec,request=FetchConsumer" ],
+    	 "attributes": "OneMinuteRate"
+      },
+      {
+        "metrics": [ "TotalTimeMs,request=FetchConsumer", "TotalTimeMs,request=FetchFollower", "TotalTimeMs,request=Produce" ],
+        "attributes": "Mean"
+      }
+    ]
+  }
+]
