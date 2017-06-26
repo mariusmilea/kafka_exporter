@@ -27,7 +27,7 @@ make up
 ```
 
 5. Import the included Grafana dashboard
-![Alt text](https://github.com/mariusmilea/kafka_exporter/dashboards/screenshot.png)
+![Alt text](https://github.com/mariusmilea/kafka_exporter/blob/master/dashboards/screenshot.png)
 
 6. Add some alerts into Alertmanager:
 ```text
