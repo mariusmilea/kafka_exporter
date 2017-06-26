@@ -1,5 +1,6 @@
 # Introduction
-This is a Kafka exporter for Prometheus. It works by running only one instance of it which will collect the metrics from the Kafka cluster.
+This is a Kafka exporter for Prometheus written in Python. It uses [JPype](http://jpype.sourceforge.net/) to talk to the JMX server. Using JPype here may look like a hack, but it works very well actually.
+It is only needed to run one instance of the Kafka exporter and that will take care of collecting the metrics from all the Kafka brokers.
 
 
 # Instalation
@@ -19,8 +20,59 @@ This is a Kafka exporter for Prometheus. It works by running only one instance o
       - target_label: __address__
         replacement: <IP_Exporter>:5557
 ```
+
 4. Finally, run the exporter:
 ```bash
 make up
 ```
+
 5. Import the included Grafana dashboard
+![Alt text](https://github.com/mariusmilea/kafka_exporter/dashboards/screenshot.png)
+
+6. Add some alerts into Alertmanager:
+```text
+ALERT KafkaOfflinePartitions
+  IF sum(OfflinePartitionsCount) > 0
+  FOR 5m
+  LABELS { severity="page" }
+  ANNOTATIONS {
+    summary = "{{$labels.cluster}} has offline partitions",
+    description = "{{$labels.cluster}} has offline partitions"
+  }
+
+ALERT KafkaMaxLagclientIdReplica
+  IF sum(MaxLagclientIdReplica) > 50
+  FOR 5m
+  LABELS { severity="page" }
+  ANNOTATIONS {
+    summary = "{{$labels.cluster}} has {{$value}} of replica lag",
+    description = "{{$labels.cluster}} has {{$value}} of replica lag"
+  }
+
+ALERT KafkaActiveControllerCount
+  IF sum(ActiveControllerCount) by (cluster) != 1
+  FOR 5m
+  LABELS { severity="page" }
+  ANNOTATIONS {
+    summary = "{{$labels.cluster}} has {{$value}} active controllers",
+    description = "{{$labels.cluster}} has {{$value}} active controllers"
+  }
+
+ALERT KafkaFailedFetchRequestsPerSec
+  IF sum(FailedFetchRequestsPerSec) > 0
+  FOR 5m
+  LABELS { severity="page" }
+  ANNOTATIONS {
+    summary = "{{$labels.cluster}} has {{$value}} failed fetched req/sec",
+    description = "{{$labels.cluster}} has {{$value}} failed fetched req/sec"
+  }
+
+ALERT KafkaFailedProduceRequestsPerSec
+  IF sum(FailedProduceRequestsPerSec) > 0
+  FOR 5m
+  LABELS { severity="page" }
+  ANNOTATIONS {
+    summary = "{{$labels.cluster}} has {{$value}} failed produced req/sec",
+    description = "{{$labels.cluster}} has {{$value}} failed produced req/sec"
+  }
+```
