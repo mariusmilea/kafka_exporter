@@ -76,3 +76,12 @@ ALERT KafkaFailedProduceRequestsPerSec
     description = "{{$labels.cluster}} has {{$value}} failed produced req/sec"
   }
 ```
+
+7. Run it as a service once you're happy with it:
+```bash
+git clone git@github.com:mariusmilea/kafka_exporter.git
+cd kafka_exporter
+sudo cp -r etc/kafka_exporter /etc/
+sudo cp etc/systemd/system/kafka_exporter.service /etc/systemd/system/
+sudo systemctl enable kafka_exporter
+```

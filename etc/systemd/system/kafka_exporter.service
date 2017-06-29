@@ -1,0 +1,18 @@
+[Unit]
+Description=Kafka exporter
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=on-failure
+RestartSec=10
+WorkingDirectory=/etc/kafka_exporter
+# Comment out the line below, if you don't want automatic updates on restart
+ExecStartPre=/usr/bin/docker-compose pull
+ExecStart=/usr/bin/docker-compose up --no-color
+ExecStop=/usr/bin/docker-compose stop
+# Comment out the line below, if you don't want automatic updates on restart
+ExecStopPost=/usr/bin/docker-compose rm -f
+
+[Install]
+WantedBy=multi-user.target
